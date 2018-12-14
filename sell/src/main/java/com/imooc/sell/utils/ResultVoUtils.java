@@ -23,7 +23,7 @@ import com.imooc.sell.Vo.ResultVo;
 @SuppressWarnings("unchecked")
 public class ResultVoUtils {
     public static ResultVo success(Object o){
-        ResultVo<Object> vo = new ResultVo<>();
+        ResultVo vo = new ResultVo();
         vo.setCode(0);
         vo.setMsg("成功");
         vo.setData(o);

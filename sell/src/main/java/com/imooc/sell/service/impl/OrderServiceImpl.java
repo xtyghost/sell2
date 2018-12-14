@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto cancel(String orderId) {
         //根据id查询订单，信息
         Optional<OrderMaster> byId = orderMasterRepository.findById(orderId);
-        final OrderDto[] orderDto = new OrderDto[0];
+        final OrderDto[] orderDto = new OrderDto[1];
 
         byId.ifPresent(e -> {
             if (e.getOrderStatus().equals(OrderStatusEnums.NEW.getCode())) {
@@ -161,6 +161,9 @@ public class OrderServiceImpl implements OrderService {
                     }
                 }));
                 productInfoService.saveBatch(allById);
+            }else {
+                log.error("[cancel][取消订单]订单状态异常，OrderStatus={}",e.getOrderStatus());
+                throw new SellException(ResultEnums.ORDER_STATUS_EXCEPTION);
             }
             //修改订单状态
 
@@ -199,7 +202,12 @@ public class OrderServiceImpl implements OrderService {
     public Optional<OrderDto> findByOrderId(String orderId) {
         Optional<OrderMaster> byId = orderMasterRepository.findById(orderId);
         OrderDto orderDto = new OrderDto();
-        BeanUtils.copyProperties(byId, orderDto);
+        List<OrderDetail> allByOrderId = orderDetailRepository.findAllByOrderId(orderId);
+        if (byId.isPresent()) {
+            OrderMaster source = byId.get();
+            BeanUtils.copyProperties(source, orderDto);
+        }
+        orderDto.setDetails(allByOrderId);
         //封装dto对象
         byId.ifPresent(master -> orderDto.setDetails(orderDetailRepository.findAllByOrderId(orderId)));
         return Optional.of(orderDto);

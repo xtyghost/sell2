@@ -10,7 +10,10 @@
  */
 package com.imooc.sell.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.imooc.sell.pojo.OrderDetail;
+import com.imooc.sell.utils.serializer.Date2LongSerialzer;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -28,6 +31,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDto {
     /**
      * 订单di
@@ -54,9 +58,9 @@ public class OrderDto {
     private Integer orderStatus;
 
     private Integer payStatus;
-
+    @JsonSerialize(using= Date2LongSerialzer.class)
     private Date createTime;
-
+    @JsonSerialize(using=Date2LongSerialzer.class)
     private Date updateTime;
     /**
      * 订单详情
