@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.211.55.8/sell?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  jpa:
+    show-sql: true
+  jackson:
+    default-property-inclusion: non_null
+server:
+  servlet:
+    context-path: /sell
+
+#logging:
+#  pattern:
+#    console: "%msg%n"
+#    dateformat: "%d - %msg%n"
+#  #  path: /var/log/tomcat
+#  file: /var/log/tomcat/sell.log
+#  level:
+#     com.imooc.sell.LoggerTest: debug
+#
